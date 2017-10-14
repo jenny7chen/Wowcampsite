@@ -1,4 +1,4 @@
-db.collection("member").orderBy("career").get().then((querySnapshot) => {
+firestoreDB.collection("member").orderBy("career").get().then((querySnapshot) => {
   querySnapshot.forEach((doc) => {
     console.log(`${doc.id} => 暱稱是 ${doc.get("nick_name")}, 是否為管理員 ${doc.get("is_admin")}`);
   });

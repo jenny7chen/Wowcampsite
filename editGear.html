@@ -56,8 +56,11 @@
 
 	<link rel="stylesheet" href="css/style.css">
 
-
-	<!-- Modernizr JS -->
+	<script src="https://www.gstatic.com/firebasejs/4.5.0/firebase.js"></script>
+	<script src="https://www.gstatic.com/firebasejs/4.5.0/firebase-firestore.js"></script>
+	<script src="js/firestore_init.js"></script>
+	<script src="js/edit-gear-init.js"></script>
+<!-- Modernizr JS -->
 	<script src="js/modernizr-2.6.2.min.js"></script>
 	<!-- FOR IE9 below -->
 	<!--[if lt IE 9]>
@@ -105,84 +108,14 @@
 				<div class="fh5co-overlay"></div>
 				<div class="fh5co-cover fh5co-cover_2 text-center" data-stellar-background-ratio="0.5" style="background-image: url(images/blog-2.jpg);">
 					<div class="desc animate-box">
-						<h2>Our Projects</h2>
-						<span>Lovely Crafted by <a href="http://frehtml5.co/" target="_blank" class="fh5co-site-name">FREEHTML5.co</a></span>
+						<h2 id="raid_edit_status"></h2>
+						<!-- <span>Lovely Crafted by <a href="http://frehtml5.co/" target="_blank" class="fh5co-site-name">FREEHTML5.co</a></span> -->
 					</div>
 				</div>
 			</div>
 			<!-- end:header-top -->
 			<div id="fh5co-work-section">
 				<div class="container">
-					<div class="row">
-						<div class="col-md-8 col-md-offset-2 text-center heading-section animate-box">
-							<h3>Outstanding Projects</h3>
-							<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Velit est facilis maiores, perspiciatis accusamus asperiores sint consequuntur debitis.</p>
-						</div>
-					</div>
-				</div>
-				<div class="container">
-					<div class="row">
-						<div class="col-md-4">
-							<div class="fh5co-grid animate-box" style="background-image: url(images/work-1.jpg);">
-								<a class="image-popup text-center" href="#">
-									<div class="prod-title">
-										<h3>Don’t Just Stand There</h3>
-										<span>Illustration, Print</span>
-									</div>
-								</a>
-							</div>
-						</div>
-						<div class="col-md-4">
-							<div class="fh5co-grid animate-box" style="background-image: url(images/work-2.jpg);">
-								<a class="image-popup text-center" href="#">
-									<div class="prod-title">
-										<h3>Don’t Just Stand There</h3>
-										<span>Illustration, Print</span>
-									</div>
-								</a>
-							</div>
-						</div>
-						<div class="col-md-4">
-							<div class="fh5co-grid animate-box" style="background-image: url(images/work-3.jpg);">
-								<a class="image-popup text-center" href="#">
-									<div class="prod-title">
-										<h3>Don’t Just Stand There</h3>
-										<span>Illustration, Print</span>
-									</div>
-								</a>
-							</div>
-						</div>
-						<div class="col-md-4">
-							<div class="fh5co-grid animate-box" style="background-image: url(images/work-4.jpg);">
-								<a class="image-popup text-center" href="#">
-									<div class="prod-title">
-										<h3>Don’t Just Stand There</h3>
-										<span>Illustration, Print</span>
-									</div>
-								</a>
-							</div>
-						</div>
-						<div class="col-md-4">
-							<div class="fh5co-grid animate-box" style="background-image: url(images/work-5.jpg);">
-								<a class="image-popup text-center" href="#">
-									<div class="prod-title">
-										<h3>Don’t Just Stand There</h3>
-										<span>Illustration, Print</span>
-									</div>
-								</a>
-							</div>
-						</div>
-						<div class="col-md-4">
-							<div class="fh5co-grid animate-box" style="background-image: url(images/work-6.jpg);">
-								<a class="image-popup text-center" href="#">
-									<div class="prod-title">
-										<h3>Don’t Just Stand There</h3>
-										<span>Illustration, Print</span>
-									</div>
-								</a>
-							</div>
-						</div>
-					</div>
 
 				</div>
 			</div>
@@ -193,14 +126,7 @@
 					<div class="container">
 						<div class="row">
 							<div class="col-md-6 col-md-offset-3 text-center">
-								<p class="fh5co-social-icons">
-									<a href="#"><i class="icon-twitter2"></i></a>
-									<a href="#"><i class="icon-facebook2"></i></a>
-									<a href="#"><i class="icon-instagram"></i></a>
-									<a href="#"><i class="icon-dribbble2"></i></a>
-									<a href="#"><i class="icon-youtube"></i></a>
-								</p>
-								<p>Copyright 2016 Free Html5 <a href="#">WoWCamp</a>. All Rights Reserved. <br>Made with <i class="icon-heart3"></i> by <a href="http://freehtml5.co/" target="_blank">Freehtml5.co</a> / Demo Images: <a href="https://unsplash.com/" target="_blank">Unsplash</a></p>
+								<p>Copyright 2017 Starfalling <a href="#">WoWCamp</a>. All Rights Reserved. <br>Made with <i class="icon-heart3"></i> by <a href="http://freehtml5.co/" target="_blank">Freehtml5.co</a> / Demo Images: <a href="https://unsplash.com/" target="_blank">Unsplash</a></p>
 							</div>
 						</div>
 					</div>
@@ -231,6 +157,7 @@
 	<!-- Main JS (Do not remove) -->
 	<script src="js/main.js"></script>
 	<script src="js/menu-init.js"></script>
+	<script src="js/gear-init.js"></script>
 
 </body>
 

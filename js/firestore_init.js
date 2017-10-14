@@ -6,13 +6,12 @@ var config = {
   storageBucket: "wowcamp-f8591.appspot.com",
   messagingSenderId: "934378512281"
 };
-
 firebase.initializeApp(config);
 console.log("finish initializeApp");
 
-var db = firebase.firestore();
+var firestoreDB = firebase.firestore();
 
-db.collection("member").get().then((querySnapshot) => {
+firestoreDB.collection("member").get().then((querySnapshot) => {
   querySnapshot.forEach((doc) => {
     console.log(`${doc.id} => 暱稱是 ${doc.get("nick_name")}, 是否為管理員 ${doc.get("is_admin")}`);
   });
