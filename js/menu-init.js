@@ -1,4 +1,3 @@
-$("#sf-menu-member").hide();
 $("#sf-menu-raid").hide();
 $("#sf-menu-dispatch").hide();
 
@@ -11,7 +10,6 @@ console.log(isAdmin);
 
 if (isAdmin) {
   console.log("is admin, show menu");
-  $("#sf-menu-member").show();
   $("#sf-menu-raid").show();
   $("#sf-menu-dispatch").show();
 }
