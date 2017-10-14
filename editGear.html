@@ -115,44 +115,45 @@
 			</div>
 			<!-- end:header-top -->
 			<div id="fh5co-work-section" class="text-center">
-					<form action="#">
-						<div class="form-group" id="raid_chooser_radio_group">
-						</div>
-						<div class="form-group">
-							<input type="button" id="choose_raid_button" value="選擇副本" onclick="chooseRaid()" class="btn btn-primary">
-						</div>
-					</form>
-				</div>
+				<form action="#">
+					<div class="form-group" id="raid_chooser_radio_group">
+					</div>
+					<div class="form-group .topm-2">
+						<input type="button" id="choose_raid_button" value="選擇副本" onclick="chooseRaid()" class="btn btn-primary">
+					</div>
+				</form>
 			</div>
-			<!-- END 選擇副本 section -->
+		</div>
+		<!-- END 選擇副本 section -->
 
-			<div id="gear-section"  class="text-center">
+		<div class="container text-center">
+			<h2 id="gear_edit_status"></h2>
+		</div>
+		<div id="gear-section" class="text-center">
+			<div class="container">
+				<form action="#" id="form">
+					<div class="form-group" id="user_gear_form_container">
+					</div>
+					<div class="form-group col-md-12 text-center">
+						<input type="button" id="form_submit" value="儲存" onclick="saveGear()" class="btn btn-primary topm">
+					</div>
+				</form>
+			</div>
+		</div>
+		<!-- END 填寫裝備 -->
+		<footer>
+			<div id="footer">
 				<div class="container">
-					<form action="home.html" id="form">
-						<div class="form-group" id="user_gear_form_container">
-						</div>
-						<div class="form-group">
-							<input type="button" id="form_submit" value="儲存" onclick="chooseRaid()" class="btn btn-primary topm">
-						</div>
-					</form>
-				</div>
-			</div>
-			<!-- END 填寫裝備 -->
-			<div class="row">
-			</div>
-			<footer>
-				<div id="footer">
-					<div class="container">
-						<div class="row">
-							<div class="col-md-6 col-md-offset-3 text-center">
-								<p>Copyright 2017 Starfalling <a href="#">WoWCamp</a>. All Rights Reserved. <br>Made with <i class="icon-heart3"></i> by <a href="http://freehtml5.co/" target="_blank">Freehtml5.co</a> / Demo Images: <a href="https://unsplash.com/" target="_blank">Unsplash</a></p>
-							</div>
+					<div class="row">
+						<div class="col-md-6 col-md-offset-3 text-center">
+							<p>Copyright 2017 Starfalling <a href="#">WoWCamp</a>. All Rights Reserved. <br>Made with <i class="icon-heart3"></i> by <a href="http://freehtml5.co/" target="_blank">Freehtml5.co</a> / Demo Images: <a href="https://unsplash.com/" target="_blank">Unsplash</a></p>
 						</div>
 					</div>
 				</div>
-			</footer>
-		</div>
-		<!-- END fh5co-page -->
+			</div>
+		</footer>
+	</div>
+	<!-- END fh5co-page -->
 
 	</div>
 	<!-- END fh5co-wrapper -->
@@ -181,6 +182,7 @@
 	<script src="js/menu-init.js"></script>
 	<script src="js/gear-init.js"></script>
 	<script src="js/edit-gear-init.js"></script>
+	<script src="js/save-gear.js"></script>
 
 </body>
 

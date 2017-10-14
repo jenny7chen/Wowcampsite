@@ -66,8 +66,8 @@ function chooseRaid() {
 }
 
 function fetchRaidData(raidId) {
-  // var userId = Cookies.get("user_id");
-  var userId = "starfalling";
+  $("#gear_edit_status").text("");
+  var userId = Cookies.get("user_id");
   realtimeDB.ref('/gear/' + raidId + '/' + userId).once('value').then(function(snapshot) {
     console.log("拿到使用者raid資料");
     generateForm(raidId, snapshot);
@@ -90,10 +90,11 @@ function generateForm(raidId, snapshot) {
   createFormTitle(tbdy);
 
   var data = [];
-  snapshot.forEach(function(childSnapshot) {
-    data.push(childSnapshot);
-  });
-
+  if (snapshot != undefined) {
+    snapshot.forEach(function(childSnapshot) {
+      data.push(childSnapshot);
+    });
+  }
   for (var i = 0; i < size; i++) {
     var tr = document.createElement('tr');
     tr.style.color = "black";
@@ -110,8 +111,8 @@ function generateForm(raidId, snapshot) {
 }
 
 function createOneRow(index, raidId, tr, snapshot) {
-  var bossId = snapshot == undefined ? 0 : snapshot.child("boss").val();
-  var partId = snapshot == undefined ? 0 : snapshot.child("part").val();
+  var bossId = snapshot == undefined ? -1 : snapshot.child("boss").val();
+  var partId = snapshot == undefined ? "" : snapshot.child("part").val();
   var note = snapshot == undefined ? "" : snapshot.child("note").val();
   var td = document.createElement('td');
   var label = document.createElement("label");
@@ -119,7 +120,7 @@ function createOneRow(index, raidId, tr, snapshot) {
   label.classList.add('col-md-1');
   td.appendChild(label);
   td.appendChild(createBossElement(raidId, bossId));
-  td.appendChild(createPartElement(raidId, bossId));
+  td.appendChild(createPartElement(raidId, partId));
   td.appendChild(createNoteElement(note));
   tr.appendChild(td)
 }
@@ -128,16 +129,23 @@ function createBossElement(raidId, bossId) {
   var div = document.createElement('div');
   var bosses = getBosses(raidId);
   var boss = document.createElement('select');
-  for (var i = 0; i < bosses.length; i++) {
+  for (var i = -1; i < bosses.length; i++) {
     var option = document.createElement("option");
     option.value = i;
-    option.text = bosses[i];
+    if (i > -1) {
+      option.text = bosses[i];
+    } else {
+      option.text = "請選擇boss";
+    }
     if (bossId == i) {
       option.setAttribute('selected', "selected");
     }
     boss.appendChild(option);
   }
   boss.setAttribute('value', bossId);
+  if (bossId == -1) {
+    boss.setAttribute('text', "");
+  }
   div.appendChild(boss);
   div.classList.add('col-md-3');
   div.classList.add('custom-select');
@@ -148,12 +156,18 @@ function createPartElement(raidId, partId) {
   var div = document.createElement('div');
   var parts = getParts();
   var part = document.createElement('select');
-  for (var i = 0; i < parts.length; i++) {
+  for (var i = -1; i < parts.length; i++) {
     var option = document.createElement("option");
-    option.value = i;
-    option.text = parts[i].val();
-    if (partId == i) {
-      option.setAttribute('selected', "selected");
+
+    if (i > -1) {
+      option.value = parts[i].key;
+      option.text = parts[i].val();
+      if (partId == parts[i].key) {
+        option.setAttribute('selected', "selected");
+      }
+    } else {
+      option.value = "";
+      option.text = "請選擇部位"
     }
     part.appendChild(option);
   }
@@ -199,8 +213,4 @@ function createLabel(text) {
   label.classList.add("text-center");
   label.appendChild(document.createTextNode(text));
   return label;
-}
-
-function saveGear() {
-
 }
