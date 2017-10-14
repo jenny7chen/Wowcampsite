@@ -16,3 +16,9 @@ firestoreDB.collection("member").get().then((querySnapshot) => {
     console.log(`${doc.id} => 暱稱是 ${doc.get("nick_name")}, 是否為管理員 ${doc.get("is_admin")}`);
   });
 });
+
+var realtimeDB = firebase.database();
+realtimeDB.ref('/member/starfalling/nick_name').once('value').then(function(snapshot) {
+  var testnickname = snapshot.val();
+  console.log("user name = " + testnickname);
+});
