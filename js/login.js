@@ -45,11 +45,6 @@ function loginWithRealtimeDB(userId, password) {
       $("#form").submit();
     }
   });
-  realtimeDB.ref('/member/starfalling/nick_name').once('value').then(function(snapshot) {
-    var testnickname = snapshot.val();
-    console.log("user name = " + testnickname);
-  });
-
 }
 
 function loginWithFirestore() {

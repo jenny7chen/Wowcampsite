@@ -1,7 +1,30 @@
-.best-red{
+.best-red {
   color: #FCC72C;
 }
 
-.best-active{
+.best-active {
   color: #0066ff;
+}
+
+.best-radio, input[type="radio"] {
+  margin: 0 10px 0 10px;
+}
+
+.best-select, select {
+  margin: 0 10px 0 10px;
+}
+
+.best-label, label {
+  margin: 0 10px 0 10px;
+}
+
+.style-1{
+  border: solid 1px gainsboro;
+  display: table-cell;
+  vertical-align: middle;
+  padding: .6em .8em .5em .8em;
+}
+
+.topm{
+    margin: 20px 0 20px 0;
 }
