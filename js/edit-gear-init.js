@@ -66,7 +66,6 @@ function chooseRaid() {
 }
 
 function fetchRaidData(raidId) {
-  $("#gear_edit_status").text("");
   var userId = Cookies.get("user_id");
   realtimeDB.ref('/gear/' + raidId + '/' + userId).once('value').then(function(snapshot) {
     console.log("拿到使用者raid資料");

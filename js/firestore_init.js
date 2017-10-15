@@ -18,7 +18,9 @@ firestoreDB.collection("member").get().then((querySnapshot) => {
 });
 
 var realtimeDB = firebase.database();
-realtimeDB.ref('/member/starfalling/nick_name').once('value').then(function(snapshot) {
-  var testnickname = snapshot.val();
+realtimeDB.ref('/member/starfalling').once('value').then(function(snapshot) {
+  var testnickname = snapshot.child('nick_name').val();
   console.log("user name = " + testnickname);
+  console.log("user is_admin = " + snapshot.child('is_admin').val());
+  console.log("Cookie value admin = " + Cookies.get('user_is_admin'));
 });

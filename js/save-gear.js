@@ -13,18 +13,19 @@ function saveGear() {
   var userId = Cookies.get('user_id');
   firebase.database().ref('gear/' + raidId+'/'+userId).set(data, function(error){
     if(error){
-      $("#gear_edit_status").text("儲存失敗,再試一次");
       console.log("失敗");
+      swal("儲存失敗,請再試一次");
 
     }else{
-      $("#gear_edit_status").text("儲存成功");
+      swal("儲存成功", {
+        icon: "success",
+      });
       var container = document.getElementById('user_gear_form_container');
       var range = document.createRange();
       range.selectNodeContents(container);
       range.deleteContents();
       $("#form_submit").hide();
       console.log("成功");
-
     }
   });
 }
