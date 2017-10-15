@@ -36,7 +36,7 @@ function fetchTableData() {
   var data = [];
   for (var i = 1; i < tbdy.childElementCount; i++) {
     var bossSelect = tbdy.children[i].children[0].children[1].children[0];
-    var boss = bossSelect.options[bossSelect.selectedIndex].value;
+    var boss = parseInt(bossSelect.options[bossSelect.selectedIndex].value);
     var partSelect = tbdy.children[i].children[0].children[2].children[0];
     var part = partSelect.options[partSelect.selectedIndex].value;
     var note = tbdy.children[i].children[0].children[3].value;

@@ -11,6 +11,7 @@ realtimeDB.ref('/part').once('value').then(function(snapshot) {
 });
 
 function getBosses(raidId) {
+  console.log("raid snap shot = " + raidSnapShot + " raid id = " + raidId);
   if (raidSnapShot != undefined) {
     return raidSnapShot.child('raids').child(raidId).child("boss").val();
   }
