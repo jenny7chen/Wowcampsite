@@ -1,3 +1,4 @@
+$("#chooser_form").hide();
 realtimeDB.ref('/raid').once('value').then(function(snapshot) {
   var open = snapshot.child('status').val();
   console.log("raid status = " + open);
@@ -5,6 +6,7 @@ realtimeDB.ref('/raid').once('value').then(function(snapshot) {
     $("#raid_edit_status_hint").text("目前副本開放填寫中");
   } else {
     $("#raid_edit_status_hint").text("目前副本關閉填寫中,可以開始分裝");
+    $("#chooser_form").show();
     initRaidChooser(snapshot);
     getGearData();
   }
@@ -229,7 +231,7 @@ function createGiveBtn(td, rowData) {
   btn.setAttribute('type', 'button');
   btn.setAttribute('value', rowData.lock ? "收回裝備" : "給裝備");
   btn.classList.add('col-md-2');
-  // btn.classList.add('col-md-offset-2');
+  btn.style.height = "50px";
   if (rowData.lock) {
     btn.classList.add('btn-warning');
   } else {
