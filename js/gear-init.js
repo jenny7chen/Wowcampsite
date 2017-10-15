@@ -12,7 +12,6 @@ realtimeDB.ref('/part').once('value').then(function(snapshot) {
 
 function getBosses(raidId) {
   if (raidSnapShot != undefined) {
-    console.log("從此副本拿boss"+raidId);
     return raidSnapShot.child('raids').child(raidId).child("boss").val();
   }
   return undefined;

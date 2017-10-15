@@ -38,11 +38,13 @@ function fetchTableData() {
     var boss = bossSelect.options[bossSelect.selectedIndex].value;
     var partSelect = tbdy.children[i].children[0].children[2].children[0];
     var part = partSelect.options[partSelect.selectedIndex].value;
-    var note = tbdy.children[i].children[0].children[3].getAttribute('value');
+    var note = tbdy.children[i].children[0].children[3].value;
+    var lock = tbdy.children[i].children[0].children[4].value == "true";
     var rowData = {
       boss: boss,
       part: part,
       note: note,
+      lock:lock
     };
     data.push(rowData);
   }

@@ -111,21 +111,31 @@ function generateForm(raidId, snapshot) {
 }
 
 function createOneRow(index, raidId, tr, snapshot) {
-  var bossId = snapshot == undefined ? -1 : snapshot.child("boss").val();
-  var partId = snapshot == undefined ? "" : snapshot.child("part").val();
-  var note = snapshot == undefined ? "" : snapshot.child("note").val();
+  var bossId = (snapshot == undefined || snapshot == null) ? -1 : snapshot.child("boss").val();
+  var partId = (snapshot == undefined || snapshot == null) ? "" : snapshot.child("part").val();
+  var note = (snapshot == undefined || snapshot == null) ? "" : snapshot.child("note").val();
+  var isLock = (snapshot == undefined || snapshot == null) ? false : snapshot.child("lock").val();
+  if (isLock == null) {
+    isLock = false;
+  }
   var td = document.createElement('td');
   var label = document.createElement("label");
   label.appendChild(document.createTextNode((index + 1)));
   label.classList.add('col-md-1');
   td.appendChild(label);
-  td.appendChild(createBossElement(raidId, bossId));
-  td.appendChild(createPartElement(raidId, partId));
-  td.appendChild(createNoteElement(note));
+  td.appendChild(createBossElement(raidId, bossId, isLock));
+  td.appendChild(createPartElement(raidId, partId, isLock));
+  td.appendChild(createNoteElement(note, isLock));
+  td.appendChild(createLockElement(isLock));
+  if (isLock) {
+    td.style.backgroundColor = "#ff5050";
+  } else {
+    td.style.backgroundColor = "white";
+  }
   tr.appendChild(td)
 }
 
-function createBossElement(raidId, bossId) {
+function createBossElement(raidId, bossId, isLock) {
   var div = document.createElement('div');
   var bosses = getBosses(raidId);
   var boss = document.createElement('select');
@@ -143,6 +153,9 @@ function createBossElement(raidId, bossId) {
     boss.appendChild(option);
   }
   boss.setAttribute('value', bossId);
+  if (isLock) {
+    boss.setAttribute('disabled', isLock);
+  }
   if (bossId == -1) {
     boss.setAttribute('text', "");
   }
@@ -152,7 +165,7 @@ function createBossElement(raidId, bossId) {
   return div;
 }
 
-function createPartElement(raidId, partId) {
+function createPartElement(raidId, partId, isLock) {
   var div = document.createElement('div');
   var parts = getParts();
   var part = document.createElement('select');
@@ -172,19 +185,38 @@ function createPartElement(raidId, partId) {
     part.appendChild(option);
   }
   part.setAttribute('value', partId);
+  if (isLock) {
+    part.setAttribute('disabled', isLock);
+  }
   div.appendChild(part);
   div.classList.add('col-md-3');
   div.classList.add('custom-select');
   return div;
 }
 
-function createNoteElement(text) {
+function createNoteElement(text, isLock) {
   var note = document.createElement('input');
   note.setAttribute('type', "text");
   note.setAttribute('value', text);
   note.classList.add('col-md-3');
-  note.classList.add('style-1');
+  if (isLock) {
+    note.style.backgroundColor = "#ff5050";
+    note.style.display = 'none';
+    note.classList.add('style-2');
+    note.setAttribute('disabled', isLock);
+
+  } else {
+    note.classList.add('style-1');
+    note.style.backgroundColor = "white";
+  }
   return note;
+}
+
+function createLockElement(isLock) {
+  var lock = document.createElement('input');
+  lock.setAttribute('type', "hidden");
+  lock.setAttribute('value', isLock);
+  return lock;
 }
 
 function createFormTitle(tbdy) {
