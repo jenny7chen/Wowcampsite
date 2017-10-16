@@ -25,6 +25,7 @@ function saveGear() {
       range.selectNodeContents(container);
       range.deleteContents();
       $("#form_submit").hide();
+      $("#form_save_hint").hide();
       console.log("成功");
     }
   });
