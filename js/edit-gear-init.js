@@ -12,6 +12,7 @@
 
 $("#choose_raid_button").hide();
 $("#form_submit").hide();
+$("#form_save_hint").hide();
 realtimeDB.ref('/raid').once('value').then(function(snapshot) {
   var open = snapshot.child('status').val();
   console.log("raid status = " + open);
@@ -107,6 +108,7 @@ function generateForm(raidId, snapshot) {
   tbl.appendChild(tbdy);
   container.appendChild(tbl);
   $("#form_submit").show();
+  $("#form_save_hint").show();
 }
 
 function createOneRow(index, raidId, tr, snapshot) {
