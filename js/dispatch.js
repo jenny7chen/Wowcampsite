@@ -213,9 +213,11 @@ function createOneRow(index, tr, rowData) {
   label.appendChild(document.createTextNode(rowData.order + 1));
   label.classList.add('col-md-1');
   td.appendChild(label);
-  td.appendChild(createTextElement(rowData.userName, rowData.lock));
-  td.appendChild(createTextElement(rowData.note, rowData.lock));
-  td.appendChild(createTextElement(rowData.score, rowData.lock));
+  td.appendChild(createTextElement(rowData.userName, rowData.lock, true));
+  td.appendChild(createTextElement(rowData.note, rowData.lock, true));
+  var scoreInput = createTextElement(rowData.score, rowData.lock, false);
+  td.appendChild(scoreInput);
+  td.appendChild(createScoreBtn(td, scoreInput, rowData));
   td.appendChild(createGiveBtn(td, rowData));
 
   if (rowData.lock) {
@@ -224,6 +226,30 @@ function createOneRow(index, tr, rowData) {
     td.style.backgroundColor = "white";
   }
   tr.appendChild(td)
+}
+
+function createScoreBtn(td, scoreInput, rowData) {
+  var btn = document.createElement("input");
+  btn.setAttribute('type', 'button');
+  btn.setAttribute('value', "儲存出席率");
+  btn.classList.add('col-md-2');
+  btn.style.height = "50px";
+  btn.classList.add('btn-primary');
+  btn.addEventListener("click", function() {
+    saveScore(td, scoreInput, rowData, btn);
+  });
+  return btn;
+}
+
+function saveScore(td, scoreInput, rowData, btn) {
+  var score = scoreInput.value;
+  firebase.database().ref('score/' + rowData.raidId + '/' + rowData.userId).set(parseInt(score), function(error) {
+    if (!error) {
+      swal('已更改' + rowData.userName + "的出席率為"+score);
+    }else{
+      swal('儲存失敗，請再試一次');
+    }
+  });
 }
 
 function createGiveBtn(td, rowData) {
@@ -262,12 +288,14 @@ function giveGear(give, td, rowData, btn) {
   });
 }
 
-function createTextElement(text, isLock) {
+function createTextElement(text, isLock, disabled) {
   var note = document.createElement('input');
   note.setAttribute('type', "text");
   note.setAttribute('value', text);
   note.classList.add('col-md-2');
-  note.setAttribute('disabled', true);
+  if (disabled) {
+    note.setAttribute('disabled', true);
+  }
   note.style.backgroundColor = "inherit";
   if (isLock) {
     // note.style.backgroundColor = "#ff5050";
@@ -286,14 +314,14 @@ function createFormTitle(tbdy) {
   var td = document.createElement('td');
   tr.style.backgroundColor = "#5a5a5a";
 
-  var orderLabel = createLabel("志願序");
+  var orderLabel = createLabel("志願");
   orderLabel.classList.add('col-md-1');
 
   var bossLabel = createLabel("暱稱");
   bossLabel.classList.add('col-md-2');
 
   var partLabel = createLabel("備註");
-  partLabel.classList.add('col-md-2');
+  partLabel.classList.add('col-md-1');
 
   var noteLabel = createLabel("出席率");
   noteLabel.classList.add('col-md-2');
