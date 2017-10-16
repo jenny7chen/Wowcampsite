@@ -11,22 +11,30 @@ function saveGear() {
     }
   }
   var userId = Cookies.get('user_id');
-  firebase.database().ref('gear/' + raidId+'/'+userId).set(data, function(error){
-    if(error){
-      console.log("失敗");
-      swal("儲存失敗,請再試一次");
 
-    }else{
-      swal("儲存成功", {
-        icon: "success",
+  realtimeDB.ref('/raid').once('value').then(function(snapshot) {
+    var open = snapshot.child('status').val();
+    if (open) {
+      firebase.database().ref('gear/' + raidId + '/' + userId).set(data, function(error) {
+        if (error) {
+          console.log("失敗");
+          swal("儲存失敗,請再試一次");
+
+        } else {
+          swal("儲存成功", {
+            icon: "success",
+          });
+          var container = document.getElementById('user_gear_form_container');
+          var range = document.createRange();
+          range.selectNodeContents(container);
+          range.deleteContents();
+          $("#form_submit").hide();
+          $("#form_save_hint").hide();
+          console.log("成功");
+        }
       });
-      var container = document.getElementById('user_gear_form_container');
-      var range = document.createRange();
-      range.selectNodeContents(container);
-      range.deleteContents();
-      $("#form_submit").hide();
-      $("#form_save_hint").hide();
-      console.log("成功");
+    } else {
+      swal("儲存失敗,副本填寫關閉中");
     }
   });
 }
@@ -46,7 +54,7 @@ function fetchTableData() {
       boss: boss,
       part: part,
       note: note,
-      lock:lock
+      lock: lock
     };
     data.push(rowData);
   }

@@ -78,7 +78,14 @@ function chooseUser() {
     swal("未選擇副本或團員");
     return;
   }
-  fetchRaidData(raidId, userId);
+  realtimeDB.ref('/raid').once('value').then(function(snapshot) {
+    var open = snapshot.child('status').val();
+    if (!open) {
+      fetchRaidData(raidId, userId);
+    }else{
+      swal("裝備填寫中不開放查詢");
+    }
+  });
 }
 
 function fetchRaidData(raidId, userId) {
