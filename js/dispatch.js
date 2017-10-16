@@ -189,6 +189,10 @@ function generateForm(data) {
     return;
   }
 
+  if (Cookies.get('user_is_admin') != "true") {
+    return;
+  }
+
   var tbl = document.createElement('table');
   tbl.classList.add('col-md-6');
   tbl.classList.add('col-md-offset-3');
@@ -245,8 +249,8 @@ function saveScore(td, scoreInput, rowData, btn) {
   var score = scoreInput.value;
   firebase.database().ref('score/' + rowData.raidId + '/' + rowData.userId).set(parseInt(score), function(error) {
     if (!error) {
-      swal('已更改' + rowData.userName + "的出席率為"+score);
-    }else{
+      swal('已更改' + rowData.userName + "的出席率為" + score);
+    } else {
       swal('儲存失敗，請再試一次');
     }
   });

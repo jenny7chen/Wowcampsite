@@ -53,7 +53,7 @@
 	<link rel="stylesheet" href="css/superfish.css">
 
 	<link rel="stylesheet" href="css/style.css">
-
+	<link rel="stylesheet" href="css/wowcamp.css">
 
 	<!-- Modernizr JS -->
 	<script src="js/modernizr-2.6.2.min.js"></script>
@@ -104,27 +104,34 @@
 			<div class="fh5co-overlay"></div>
 			<div class="fh5co-cover fh5co-cover_2 text-center" data-stellar-background-ratio="0.5" style="background-image: url(images/work-3.jpg);">
 				<div class="desc animate-box">
-					<h2 id="raid_edit_status"></h2>
-					<span>請往下繼續做更多設定</span>
+					<div id="fh5co-work-section" class="text-center">
+						<form action="#">
+							<div class="form-group" id="raid_chooser_radio_group">
+							</div>
+							<div class="form-group .topm-2">
+								<input type="button" id="choose_raid_button" value="選擇副本" onclick="chooseRaid()" class="btn btn-primary">
+							</div>
+						</form>
+					</div>
+				<!-- END 選擇副本 section -->
 				</div>
 			</div>
+		</div>
 
 		</div>
 		<!-- end:header-top -->
-		<div id="fh5co-blog-section" class="fh5co-section-gray">
+		<div id="gear-section">
 			<div class="container">
-				<div class="row">
-					<div class="col-md-8 col-md-offset-2 text-center heading-section animate-box">
-						<h3>設定副本狀態</h3>
-						<!-- <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Velit est facilis maiores, perspiciatis accusamus asperiores sint consequuntur debitis.</p> -->
-						<div class="container .topm col-md-8 col-md-offset-2">
-							<input type="button" id="switch_raid_status" value="" onclick="switchRaidStatus()" class="btn btn-primary">
-						</div>
+				<form action="#" id="form">
+					<div class="form-group" id="form_container">
 					</div>
-				</div>
+					<div class="form-group col-md-12 text-center">
+						<input type="button" id="form_submit" value="儲存" onclick="saveScore()" class="btn btn-primary topm">
+					</div>
+				</form>
 			</div>
 		</div>
-		<!-- fh5co-blog-section -->
+		<!-- END 填寫裝備 -->
 
 		<footer>
 			<div id="footer">
@@ -175,7 +182,7 @@
 	<!-- Main JS (Do not remove) -->
 	<script src="js/main.js"></script>
 	<script src="js/menu-init.js"></script>
-	<script src="js/raid.js"></script>
+	<script src="js/score.js"></script>
 
 	</body>
 </html>
