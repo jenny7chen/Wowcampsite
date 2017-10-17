@@ -225,7 +225,7 @@ function createNoteElement(text, isLock) {
   note.setAttribute('disabled', true);
   if (isLock) {
     note.style.backgroundColor = "#ff5050";
-    note.style.display = 'none';
+    // note.style.display = 'none';
     note.classList.add('style-2');
 
   } else {
