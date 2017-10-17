@@ -137,7 +137,7 @@ function findUserWithThis(scoreSnapShot, memberSnapShot, snapshot, raidId, bossI
       userSnapshot.forEach(function(gearSnapShot) {
         if (gearSnapShot != null && !alreadyGet) {
           console.log("index = " + index);
-          if (gearSnapShot.child("boss").val() == parseInt(bossId) && gearSnapShot.child("part").val() == partId) {
+          if ((partId.startsWith("a_tier") && gearSnapShot.child("part").val() == partId) || (gearSnapShot.child("boss").val() == parseInt(bossId) && gearSnapShot.child("part").val() == partId)) {
             var score = (scoreSnapShot == null || scoreSnapShot.child(userSnapshot.key) == null) ? 0 : scoreSnapShot.child(userSnapshot.key).val();
             var order = "" + index;
             var rowData = {
@@ -219,6 +219,9 @@ function createOneRow(index, tr, rowData) {
   td.appendChild(label);
   td.appendChild(createTextElement(rowData.userName, rowData.lock, true));
   td.appendChild(createTextElement(rowData.note, rowData.lock, true));
+  if(rowData.score == null){
+    rowData.score = 0;
+  }
   var scoreInput = createTextElement(rowData.score, rowData.lock, false);
   td.appendChild(scoreInput);
   td.appendChild(createScoreBtn(td, scoreInput, rowData));

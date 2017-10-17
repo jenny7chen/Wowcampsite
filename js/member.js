@@ -9,7 +9,7 @@ initAddMemberCareer();
 showMember();
 
 function showMember() {
-  realtimeDB.ref('/member').once('value').then(function(snapshot) {
+  realtimeDB.ref('/member').orderByChild('career').once('value').then(function(snapshot) {
     var data = [];
     snapshot.forEach(function(childSnapshot) {
       data.push(childSnapshot);

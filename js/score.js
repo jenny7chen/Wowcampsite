@@ -2,7 +2,7 @@ var members = [];
 $("#form_submit").hide();
 $("#choose_raid_button").hide();
 realtimeDB.ref('/raid').once('value').then(function(snapshot) {
-  realtimeDB.ref('/member').once('value').then(function(memberSnapShot) {
+  realtimeDB.ref('/member').orderByChild('career').once('value').then(function(memberSnapShot) {
     memberSnapShot.forEach(function(childSnapshot) {
       members.push(childSnapshot);
     });
@@ -103,7 +103,7 @@ function generateForm(raidId, snapshot) {
 
 function createOneRow(tr, memberSnapShot, rowData) {
   var td = document.createElement('td');
-  td.appendChild(createTextElement(memberSnapShot.child('nick_name').val(), true));
+  td.appendChild(createTextElement(memberSnapShot.child('nick_name').val(), true, memberSnapShot.child('career').val()));
   var scoreInput;
   var isAdmin = Cookies.get('user_is_admin') == "true";
   if (rowData != undefined) {
@@ -160,7 +160,7 @@ function saveScore() {
   });
 }
 
-function createTextElement(text, disabled) {
+function createTextElement(text, disabled, career) {
   var note = document.createElement('input');
   note.setAttribute('type', "text");
   note.setAttribute('value', text);
@@ -168,7 +168,11 @@ function createTextElement(text, disabled) {
   if (disabled) {
     note.setAttribute('disabled', true);
   }
-  note.style.backgroundColor = "inherit";
+  if (career != undefined) {
+    note.style.backgroundColor = getCareerColor(career);
+  } else {
+    note.style.backgroundColor = "inherit";
+  }
   note.classList.add('style-1');
   return note;
 }

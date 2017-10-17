@@ -1,5 +1,8 @@
 function saveGear() {
   var data = fetchTableData();
+  if(data == undefined){
+    swal("儲存失敗！好像有裝備忘記填寫是哪隻王的喔！");
+  }
   var raidId;
   var radios = document.getElementById('raid_chooser_radio_group');
 
@@ -50,6 +53,9 @@ function fetchTableData() {
     var part = partSelect.options[partSelect.selectedIndex].value;
     var note = tbdy.children[i].children[0].children[3].value;
     var lock = tbdy.children[i].children[0].children[4].value == "true";
+    if (part != undefined && part != "" && (boss == undefined || boss == -1)) {
+      return undefined;
+    }
     var rowData = {
       boss: boss,
       part: part,

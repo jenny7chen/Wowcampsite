@@ -82,7 +82,7 @@ function chooseUser() {
     var open = snapshot.child('status').val();
     if (!open) {
       fetchRaidData(raidId, userId);
-    }else{
+    } else {
       swal("裝備填寫中不開放查詢");
     }
   });
@@ -120,9 +120,9 @@ function generateForm(raidId, snapshot) {
     var tr = document.createElement('tr');
     tr.style.color = "black";
     if (data.length > i) {
-      createOneRow(i, raidId, tr, data[i]);
+      createOneRow(i, snapshot.key, raidId, tr, data[i]);
     } else {
-      createOneRow(i, raidId, tr, undefined);
+      createOneRow(i, snapshot.key, raidId, tr, undefined);
     }
     tbdy.appendChild(tr);
   }
@@ -131,13 +131,16 @@ function generateForm(raidId, snapshot) {
   $("#form_submit").show();
 }
 
-function createOneRow(index, raidId, tr, snapshot) {
+function createOneRow(index, userId, raidId, tr, snapshot) {
   var bossId = (snapshot == undefined || snapshot == null) ? -1 : snapshot.child("boss").val();
   var partId = (snapshot == undefined || snapshot == null) ? "" : snapshot.child("part").val();
   var note = (snapshot == undefined || snapshot == null) ? "" : snapshot.child("note").val();
   var isLock = (snapshot == undefined || snapshot == null) ? false : snapshot.child("lock").val();
   if (isLock == null) {
     isLock = false;
+  }
+  if (userId == null) {
+    return;
   }
   var td = document.createElement('td');
   var label = document.createElement("label");
@@ -148,6 +151,9 @@ function createOneRow(index, raidId, tr, snapshot) {
   td.appendChild(createPartElement(raidId, partId, isLock));
   td.appendChild(createNoteElement(note, isLock));
   td.appendChild(createLockElement(isLock));
+  if (Cookies.get('user_is_admin')) {
+    td.appendChild(createGiveBtn(td, index, userId, raidId, isLock));
+  }
   if (isLock) {
     td.style.backgroundColor = "#ff5050";
   } else {
@@ -215,7 +221,7 @@ function createNoteElement(text, isLock) {
   var note = document.createElement('input');
   note.setAttribute('type', "text");
   note.setAttribute('value', text);
-  note.classList.add('col-md-3');
+  note.classList.add('col-md-2');
   note.setAttribute('disabled', true);
   if (isLock) {
     note.style.backgroundColor = "#ff5050";
@@ -236,6 +242,42 @@ function createLockElement(isLock) {
   return lock;
 }
 
+function createGiveBtn(td, index, userId, raidId, isLock) {
+  var btn = document.createElement("input");
+  btn.setAttribute('type', 'button');
+  btn.setAttribute('value', isLock ? "收回裝備" : "給裝備");
+  btn.classList.add('col-md-2');
+  btn.style.height = "50px";
+  if (isLock) {
+    btn.classList.add('btn-warning');
+  } else {
+    btn.classList.add('btn-success');
+  }
+  btn.addEventListener("click", function() {
+    giveGear(isLock ? false : true, td, index, userId, raidId, btn);
+  });
+  return btn;
+}
+
+function giveGear(give, td, index, userId, raidId, btn) {
+  firebase.database().ref('gear/' + raidId + '/' + userId + '/' + index + '/lock').set(give, function(error) {
+    if (!error) {
+      btn.setAttribute('value', give ? "收回裝備" : "給裝備")
+      btn.classList.remove('btn-warning', 'btn-success');
+      if (give) {
+        btn.classList.add('btn-warning');
+        td.style.backgroundColor = "#ff5050";
+      } else {
+        btn.classList.add('btn-success');
+        td.style.backgroundColor = "white";
+      }
+      btn.addEventListener("click", function() {
+        giveGear(!give, td, index, userId, raidId, btn);
+      });
+    }
+  });
+}
+
 function createFormTitle(tbdy) {
   var tr = document.createElement('tr');
   var td = document.createElement('td');
@@ -247,7 +289,7 @@ function createFormTitle(tbdy) {
   partLabel.classList.add('col-md-3');
 
   var noteLabel = createLabel("備註");
-  noteLabel.classList.add('col-md-3');
+  noteLabel.classList.add('col-md-2');
 
   td.appendChild(bossLabel);
   td.appendChild(partLabel);
