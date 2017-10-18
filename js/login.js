@@ -21,7 +21,7 @@ function login() {
   } else {
     console.log("start get data");
     console.log("user is = " + userId + " password is = " + password + ", start login");
-    loginWithRealtimeDB(userId, password);
+    loginWithRealtimeDB(userId.toLowerCase(), password);
   }
 }
 
