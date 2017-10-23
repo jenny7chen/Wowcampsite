@@ -148,7 +148,8 @@ function findUserWithThis(scoreSnapShot, memberSnapShot, snapshot, raidId, bossI
               note: gearSnapShot.child("note").val(),
               lock: gearSnapShot.child("lock").val(),
               order: index,
-              score: score
+              score: score,
+              career: memberSnapShot.child(userSnapshot.key).child('career').val()
             };
             console.log("index = " + rowData.order);
             users.push(rowData);
@@ -217,9 +218,9 @@ function createOneRow(index, tr, rowData) {
   label.appendChild(document.createTextNode(rowData.order + 1));
   label.classList.add('col-md-1');
   td.appendChild(label);
-  td.appendChild(createTextElement(rowData.userName, rowData.lock, true));
+  td.appendChild(createTextElement(rowData.userName, rowData.lock, true, rowData.career));
   td.appendChild(createTextElement(rowData.note, rowData.lock, true));
-  if(rowData.score == null){
+  if (rowData.score == null) {
     rowData.score = 0;
   }
   var scoreInput = createTextElement(rowData.score, rowData.lock, false);
@@ -295,7 +296,7 @@ function giveGear(give, td, rowData, btn) {
   });
 }
 
-function createTextElement(text, isLock, disabled) {
+function createTextElement(text, isLock, disabled, career) {
   var note = document.createElement('input');
   note.setAttribute('type', "text");
   note.setAttribute('value', text);
@@ -303,14 +304,18 @@ function createTextElement(text, isLock, disabled) {
   if (disabled) {
     note.setAttribute('disabled', true);
   }
-  note.style.backgroundColor = "inherit";
+
   if (isLock) {
     // note.style.backgroundColor = "#ff5050";
     note.classList.add('style-2');
-
+    note.style.backgroundColor = "inherit";
   } else {
     note.classList.add('style-1');
-    // note.style.backgroundColor = "white";
+    if (career != undefined && career != null) {
+      note.style.backgroundColor = getCareerColor(career);
+    } else {
+      note.style.backgroundColor = "inherit";
+    }
   }
   return note;
 }
