@@ -202,7 +202,6 @@ function createNoteElement(text, isLock) {
   note.classList.add('col-md-3');
   if (isLock) {
     note.style.backgroundColor = "#ff5050";
-    note.style.display = 'none';
     note.classList.add('style-2');
     note.setAttribute('disabled', isLock);
 
