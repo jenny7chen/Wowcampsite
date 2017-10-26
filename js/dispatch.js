@@ -133,9 +133,8 @@ function findUserWithThis(scoreSnapShot, memberSnapShot, snapshot, raidId, bossI
   snapshot.forEach(function(userSnapshot) {
     if (userSnapshot != null && userSnapshot != undefined) {
       index = 0;
-      var alreadyGet = false;
       userSnapshot.forEach(function(gearSnapShot) {
-        if (gearSnapShot != null && !alreadyGet) {
+        if (gearSnapShot != null) {
           console.log("index = " + index);
           if ((partId.startsWith("a_tier") && gearSnapShot.child("part").val() == partId) || (gearSnapShot.child("boss").val() == parseInt(bossId) && gearSnapShot.child("part").val() == partId)) {
             var score = (scoreSnapShot == null || scoreSnapShot.child(userSnapshot.key) == null) ? 0 : scoreSnapShot.child(userSnapshot.key).val();
@@ -153,12 +152,9 @@ function findUserWithThis(scoreSnapShot, memberSnapShot, snapshot, raidId, bossI
             };
             console.log("index = " + rowData.order);
             users.push(rowData);
-            alreadyGet = true;
           }
         }
-        if (!alreadyGet) {
-          index++;
-        }
+        index++;
       })
     }
   });
@@ -189,7 +185,7 @@ function generateForm(data) {
   if (data.length == 0) {
     return;
   }
-
+  
   if (Cookies.get('user_is_admin') != "true") {
     return;
   }
