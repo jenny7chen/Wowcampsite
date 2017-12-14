@@ -19,7 +19,7 @@ function getBosses(raidId) {
 };
 
 function getRaids(snapshot) {
-  console.log('snapshot = ' +snapshot);
+  console.log('snapshot = ' + snapshot);
   if (raidSnapShot == undefined) {
     raidSnapShot = snapshot;
   }
@@ -39,9 +39,45 @@ function getParts() {
     partSnapShot.forEach(function(childSnapshot) {
       data.push(childSnapshot);
     });
-    return data;
+    return data.sort(comparePart);
   }
   return undefined;
+}
+
+function comparePart(a, b) {
+  console.log("a.key = " + a.key);
+  console.log("b.key = " + b.key);
+  if(a.key.startsWith("a_tier_armor_")){
+    return -1;
+  }
+  if(b.key.startsWith("a_tier_armor_")){
+    return 1;
+  }
+  if(a.key.endsWith("cloth")){
+    return -1;
+  }
+  if(b.key.endsWith("cloth")){
+    return 1;
+  }
+  if(a.key.endsWith("leather")){
+    return -1;
+  }
+  if(b.key.endsWith("leather")){
+    return 1;
+  }
+  if(a.key.endsWith("mail")){
+    return -1;
+  }
+  if(b.key.endsWith("mail")){
+    return 1;
+  }
+  if(a.key.endsWith("plate")){
+    return -1;
+  }
+  if(b.key.endsWith("plate")){
+    return 1;
+  }
+  return 0;
 }
 
 function getPartName(partId) {
