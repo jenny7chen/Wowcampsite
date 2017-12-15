@@ -143,7 +143,8 @@ function createBossElement(raidId, bossId, isLock) {
   for (var i = -1; i < bosses.length; i++) {
     var option = document.createElement("option");
     option.value = i;
-    if (i > -1) {
+    option.style.fontSize = "x-large";
+  if (i > -1) {
       option.text = bosses[i];
     } else {
       option.text = "請選擇boss";
@@ -172,6 +173,7 @@ function createPartElement(raidId, partId, isLock) {
   var part = document.createElement('select');
   for (var i = -1; i < parts.length; i++) {
     var option = document.createElement("option");
+    option.style.fontSize = "x-large";
 
     if (i > -1) {
       option.value = parts[i].key;
@@ -179,7 +181,8 @@ function createPartElement(raidId, partId, isLock) {
       if (partId == parts[i].key) {
         option.setAttribute('selected', "selected");
       }
-    } else {
+      option.style.backgroundColor = getPartOptionBgColor(parts[i].key);
+  } else {
       option.value = "";
       option.text = "請選擇部位"
     }

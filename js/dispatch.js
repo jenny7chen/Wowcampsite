@@ -20,6 +20,7 @@ function initRaidChooser(snapshot) {
     var option = document.createElement("option");
     option.style.color = "black";
     option.style.padding = "10px";
+    option.style.fontSize = "x-large";
     if (i > -1) {
       option.text = raids[i].child('name').val();
       option.value = raids[i].key;
@@ -57,7 +58,8 @@ function initBossChooser(raidId) {
     var option = document.createElement("option");
     option.style.color = "black";
     option.style.padding = "10px";
-    if (i > -1) {
+    option.style.fontSize = "x-large";
+  if (i > -1) {
       option.text = bosses[i];
       option.value = i;
     } else {
@@ -75,10 +77,7 @@ function initBossChooser(raidId) {
 
 function getGearData() {
   realtimeDB.ref('/part').once('value').then(function(snapshot) {
-    var data = [];
-    snapshot.forEach(function(childSnapshot) {
-      data.push(childSnapshot);
-    });
+    var data = getParts(snapshot);
     initGearChooser(data);
   });
 }
@@ -89,9 +88,11 @@ function initGearChooser(data) {
   for (var i = -1; i < data.length; i++) {
     var option = document.createElement("option");
     option.style.color = "black";
+    option.style.fontSize = "x-large";
     if (i > -1) {
       option.text = data[i].val();
       option.value = data[i].key;
+      option.style.backgroundColor = getPartOptionBgColor(data[i].key);
     } else {
       option.value = "";
       option.text = "請選擇裝備部位";
@@ -185,7 +186,7 @@ function generateForm(data) {
   if (data.length == 0) {
     return;
   }
-  
+
   if (Cookies.get('user_is_admin') != "true") {
     return;
   }
