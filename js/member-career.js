@@ -39,6 +39,55 @@ function getCareerColor(career) {
   }
 }
 
+function getAllTierName() {
+  var data = [];
+  data.push("保衛者");
+  data.push("鎮壓者");
+  data.push("征服者");
+  return data;
+}
+
+function getCareerTierName(career) {
+  switch (career) {
+    case 1: //DK
+      return "鎮壓者";
+      break;
+    case 2: //DH
+      return "征服者";
+      break;
+    case 3: //Druid
+      return "鎮壓者";
+      break;
+    case 4: //Hunter
+      return "保衛者";
+      break;
+    case 5: //Mage
+      return "鎮壓者";
+      break;
+    case 6: //Monk
+      return "保衛者";
+      break;
+    case 7: //Paladin
+      return "征服者";
+      break;
+    case 8: //Priest
+      return "征服者";
+      break;
+    case 9: //Rogue
+      return "鎮壓者";
+      break;
+    case 10: //Shaman
+      return "保衛者";
+      break;
+    case 11: //Warlock
+      return "征服者";
+      break;
+    case 12: //Warrior
+      return "保衛者";
+      break;
+  }
+}
+
 function getAllCareer() {
   var data = [];
   for (var i = 1; i < 13; i++) {

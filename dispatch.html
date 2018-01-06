@@ -132,10 +132,28 @@
 				</div>
 				<div class="container">
 					<div class="form-group col-md-4 col-md-offset-4">
+						<select id="item_t_type" class="custom-select form-control"></select>
+					</div>
+				</div>
+				<div class="container">
+					<div class="form-group col-md-4 col-md-offset-4">
+						<input id="item_level" placeholder="輸入物品裝等(非必要))" onchange="onItemDataSelected()"></input>
+					</div>
+				</div>
+				<div class="container">
+					<div class="form-group col-md-4 col-md-offset-4">
+						<input id="item_socket" placeholder="輸入物品洞數(非必要))" onchange="onItemDataSelected()"></input>
+					</div>
+				</div>
+				<div class="container">
+					<div class="form-group col-md-4 col-md-offset-4">
 						<input type="button" value="查詢" onclick="chooseGear()" class="btn btn-primary">
 					</div>
 				</div>
 			</form>
+			<div class="container">
+				<p id="item_string"></p>
+			</div>
 		</div>
 		</div>
 		<!-- END 選擇副本 section -->

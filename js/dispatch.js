@@ -46,6 +46,81 @@ function onRaidSelected() {
 
 function onSelected() {
   generateForm([]);
+  updateItemString(true);
+}
+
+function onItemDataSelected() {}
+
+function updateItemString(reset, data) {
+  if (reset) {
+    $("#item_level").val("");
+    $("#item_socket").val("");
+    $("#item_string").text("");
+
+  } else {
+    var iLevel = $("#item_level").val();
+    var iGem = $("#item_socket").val();
+    var b = document.getElementById("boss_chooser");
+    var iBoss = b.options[b.selectedIndex] == undefined ? "" : b.options[b.selectedIndex].text;
+
+    var e = document.getElementById("gear_chooser");
+    var itemName = e.options[e.selectedIndex] == undefined ? "" : e.options[e.selectedIndex].text;
+    var itemId = e.options[e.selectedIndex] == undefined ? "" : e.options[e.selectedIndex].value;
+    console.log("item id = " + itemId);
+    $("#item_string").text(getItemString(iBoss, itemName, itemId, iLevel, iGem, data));
+  }
+}
+
+function getEnWord(str) {
+  var match = str.search(/[a-zA-Z]/);
+  if (match == undefined || match == null) {
+    return -1;
+  }
+  return match;
+}
+
+function getItemString(iBoss, itemName, itemId, iLevel, iGem, data) {
+  if (data == undefined) {
+    return "";
+  }
+  var startStr = '/run SendChatMessage("╭。☆║分裝開始║☆。╮' + '\\nBOSS: ';
+
+  var enMatch = getEnWord(iBoss);
+  var chBoss = enMatch == -1 ? iBoss : iBoss.substring(0, enMatch).trim();
+  var enBoss = iBoss.replace(chBoss, "").trim();
+
+  console.log("enboss=" + enBoss);
+  console.log("chboss = " + chBoss);
+  startStr = startStr + chBoss + "\\n"
+  if (enBoss != "") {
+    startStr = startStr + enBoss + "\\n"
+  }
+  if (itemId.startsWith("a_tier")) {
+    var b = document.getElementById("item_t_type");
+    var iType = b.options[b.selectedIndex] == undefined ? "" : b.options[b.selectedIndex].text;
+    itemName = iType + itemName;
+  }
+  startStr = startStr + "裝備: " + itemName + (iLevel == undefined || iLevel == "" ? "" : ("(" + iLevel + ") "));
+  startStr = startStr + (iGem == undefined || iGem == 0 ? "" : ("帶洞 " + iGem));
+  startStr = startStr + "\\n-------------------------\\n";
+
+  var centerStr = "沒有人填寫這個裝備\\n";
+  if (data.length > 0) {
+    centerStr = "";
+    for (var i = 0; i < data.length; i++) {
+      if (data[i].lock) {
+        continue;
+      }
+      centerStr = centerStr + (data[i].order + 1) + ". ";
+      centerStr = centerStr + data[i].userName + (data[i].note == undefined || data[i].note == "" ? "" : (":" + data[i].note)) + "\\n";
+    }
+    if (centerStr == "") {
+      centerStr = "所有填寫的人都已經拿過裝備\\n";
+    }
+  }
+  var divider = "=========================";
+  var endStr = '", "RAID", nil, "Bob");'
+  return startStr + centerStr + divider + endStr;
 }
 
 function initBossChooser(raidId) {
@@ -104,7 +179,29 @@ function initGearChooser(data) {
   user.style.padding = "10px";
   user.setAttribute('value', "");
   user.setAttribute('text', "請選擇裝備部位");
+  initTTypeChooser();
   $("#chooser_form").show();
+}
+
+//注意:請選擇T裝類型(非必要) <---這句話不能改掉因為會影響下面讀取有填裝備的人的動作)
+function initTTypeChooser() {
+  var data = getAllTierName();
+  var ttype = document.getElementById('item_t_type');
+  for (var i = -1; i < data.length; i++) {
+    var option = document.createElement("option");
+    option.style.color = "black";
+    if (i > -1) {
+      option.text = data[i];
+    } else {
+      option.text = "請選擇T裝類型(非必要)";
+      option.setAttribute('selected', "selected");
+    }
+    ttype.appendChild(option);
+  }
+  ttype.style.color = "gray";
+  ttype.style.padding = "10px";
+  ttype.setAttribute('value', "");
+  ttype.setAttribute('text', "請選擇T裝類型(非必要)");
 }
 
 function chooseGear() {
@@ -129,6 +226,9 @@ function fetchRaidData(raidId, bossId, partId) {
 }
 
 function findUserWithThis(scoreSnapShot, memberSnapShot, snapshot, raidId, bossId, partId) {
+  var b = document.getElementById("item_t_type");
+  var iType = b.options[b.selectedIndex] == undefined ? "" : b.options[b.selectedIndex].text;
+
   var users = [];
   var index = 0;
   snapshot.forEach(function(userSnapshot) {
@@ -136,8 +236,9 @@ function findUserWithThis(scoreSnapShot, memberSnapShot, snapshot, raidId, bossI
       index = 0;
       userSnapshot.forEach(function(gearSnapShot) {
         if (gearSnapShot != null) {
-          console.log("index = " + index);
-          if ((partId.startsWith("a_tier") && gearSnapShot.child("part").val() == partId) || (gearSnapShot.child("boss").val() == parseInt(bossId) && gearSnapShot.child("part").val() == partId)) {
+          var caree = memberSnapShot.child(userSnapshot.key).child('career').val();
+          if ((partId.startsWith("a_tier") && gearSnapShot.child("part").val() == partId && ((iType == null || iType == undefined || iType == "" || iType == "請選擇T裝類型(非必要)") || iType == getCareerTierName(caree))) ||
+            (gearSnapShot.child("boss").val() == parseInt(bossId) && gearSnapShot.child("part").val() == partId)) {
             var score = (scoreSnapShot == null || scoreSnapShot.child(userSnapshot.key) == null) ? 0 : scoreSnapShot.child(userSnapshot.key).val();
             var order = "" + index;
             var rowData = {
@@ -151,7 +252,6 @@ function findUserWithThis(scoreSnapShot, memberSnapShot, snapshot, raidId, bossI
               score: score,
               career: memberSnapShot.child(userSnapshot.key).child('career').val()
             };
-            console.log("index = " + rowData.order);
             users.push(rowData);
           }
         }
@@ -162,6 +262,7 @@ function findUserWithThis(scoreSnapShot, memberSnapShot, snapshot, raidId, bossI
   if (users.length == 0) {
     swal("沒有人填寫這項裝備");
     generateForm(users);
+    updateItemString(false, users);
     return;
   }
   console.log("users length = " + users.length);
@@ -183,14 +284,13 @@ function generateForm(data) {
   range.selectNodeContents(container);
   range.deleteContents();
 
-  if (data.length == 0) {
-    return;
-  }
-
   if (Cookies.get('user_is_admin') != "true") {
     return;
   }
-
+  if (data.length == 0) {
+    return;
+  }
+  updateItemString(false, data);
   var tbl = document.createElement('table');
   tbl.classList.add('col-md-6');
   tbl.classList.add('col-md-offset-3');
@@ -207,6 +307,7 @@ function generateForm(data) {
   }
   tbl.appendChild(tbdy);
   container.appendChild(tbl);
+  updateItemString(false, data);
 }
 
 function createOneRow(index, tr, rowData) {
